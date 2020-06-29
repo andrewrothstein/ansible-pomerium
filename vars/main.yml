@@ -1,0 +1,8 @@
+---
+# vars file for pomerium
+pomerium_platform: '{{ pomerium_os }}-{{ pomerium_arch }}'
+pomerium_archive: pomerium-{{ pomerium_platform }}.{{ pomerium_archive_type | default("tar.gz") }}
+pomerium_url: '{{ pomerium_mirror }}/{{ pomerium_ver }}/{{ pomerium_archive }}'
+pomerium_checksums_url: '{{ pomerium_mirror }}/{{ pomerium_ver }}/pomerium_checksums.txt'
+pomerium_install_dir: '{{ pomerium_parent_install_dir }}/pomerium-{{ pomerium_ver }}'
+pomerium_fqarchive: '{{ pomerium_install_dir }}/{{ pomerium_archive }}'

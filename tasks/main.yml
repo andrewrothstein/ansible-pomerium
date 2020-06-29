@@ -1,0 +1,57 @@
+---
+- name: resolve platform specific vars
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+      paths:
+        - '{{ role_path }}/vars'
+- name: look for pomerium:{{ pomerium_ver }} install
+  stat:
+    path: '{{ pomerium_install_dir }}'
+  register: pomerium_binary
+- when: not pomerium_binary.stat.exists
+  block:
+    - name: create {{ pomerium_install_dir }}
+      become: '{{ pomerium_elevate }}'
+      become_user: root
+      file:
+        path: '{{ pomerium_install_dir }}'
+        state: directory
+        mode: 0755
+    - name: download {{ pomerium_url }} to {{ pomerium_fqarchive }}
+      become: '{{ pomerium_elevate }}'
+      become_user: root
+      get_url:
+        url: '{{ pomerium_url }}'
+        dest: '{{ pomerium_fqarchive }}'
+        checksum: 'sha256:{{ pomerium_checksums_url }}'
+        mode: 0644
+    - name: unarchive {{ pomerium_fqarchive }}
+      become: '{{ pomerium_elevate }}'
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: '{{ pomerium_fqarchive }}'
+        dest: '{{ pomerium_install_dir }}'
+        creates: '{{ pomerium_install_dir }}/pomerium'
+  always:
+    - name: clean up {{ pomerium_fqarchive }}
+      become: '{{ pomerium_elevate }}'
+      become_user: root
+      file:
+        path: '{{ pomerium_fqarchive }}'
+        state: absent
+- name: link executables in {{ pomerium_parent_install_dir }}/bin
+  become: '{{ pomerium_elevate }}'
+  become_user: root
+  with_items:
+    - pomerium
+    - pomerium-cli
+  file:
+    src: '{{ pomerium_install_dir }}/{{ item }}'
+    dest: '{{ pomerium_parent_install_dir }}/bin/{{ item }}'
+    state: link
