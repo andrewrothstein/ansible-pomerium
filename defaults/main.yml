@@ -1,8 +1,10 @@
 ---
 # defaults file for pomerium
-pomerium_ver: v0.9.2
-pomerium_os: linux
-pomerium_arch: amd64
+pomerium_ver: v0.22.2
+pomerium_arch_map:
+  aarch64: arm64
+  arm64: arm64
+  x86_64: amd64
 pomerium_mirror: https://github.com/pomerium/pomerium/releases/download
 pomerium_parent_install_dir: /usr/local
-pomerium_elevate: True
+pomerium_elevate: true

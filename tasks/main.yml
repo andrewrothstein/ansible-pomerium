@@ -1,4 +1,6 @@
 ---
+- include_role:
+    name: andrewrothstein.unarchivedeps
 - name: resolve platform specific vars
   include_vars: '{{ item }}'
   with_first_found:
@@ -34,7 +36,7 @@
       become: '{{ pomerium_elevate }}'
       become_user: root
       unarchive:
-        remote_src: yes
+        remote_src: true
         src: '{{ pomerium_fqarchive }}'
         dest: '{{ pomerium_install_dir }}'
         creates: '{{ pomerium_install_dir }}/pomerium'
@@ -50,7 +52,6 @@
   become_user: root
   with_items:
     - pomerium
-    - pomerium-cli
   file:
     src: '{{ pomerium_install_dir }}/{{ item }}'
     dest: '{{ pomerium_parent_install_dir }}/bin/{{ item }}'

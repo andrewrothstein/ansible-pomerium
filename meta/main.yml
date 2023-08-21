@@ -15,28 +15,20 @@ galaxy_info:
         - all
     - name: Debian
       versions:
-        - buster
-        - stretch
+        - bookworm
+        - bullseye
     - name: EL
       versions:
-        - 7
         - 8
+        - 9
     - name: Fedora
       versions:
-        - 31
-        - 32
-    - name: Gentoo
-      versions:
-        - all
+        - 37
+        - 38
     - name: Ubuntu
       versions:
-        - bionic
         - focal
-        - xenial
+        - jammy
   galaxy_tags:
     - development
   role_name: pomerium
-
-dependencies:
-  - role: andrewrothstein.unarchive-deps
-    version: v1.1.5

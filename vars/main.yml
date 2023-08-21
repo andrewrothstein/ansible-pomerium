@@ -1,5 +1,7 @@
 ---
 # vars file for pomerium
+pomerium_os: '{{ ansible_system | lower }}'
+pomerium_arch: '{{ pomerium_arch_map[ansible_architecture] }}'
 pomerium_platform: '{{ pomerium_os }}-{{ pomerium_arch }}'
 pomerium_archive: pomerium-{{ pomerium_platform }}.{{ pomerium_archive_type | default("tar.gz") }}
 pomerium_url: '{{ pomerium_mirror }}/{{ pomerium_ver }}/{{ pomerium_archive }}'
