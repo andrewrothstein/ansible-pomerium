@@ -1,10 +1,13 @@
 ---
-- hosts: all
+- name: Testing andrewrothstein.pomerium
+  hosts: all
   roles:
     - role: '{{ playbook_dir }}'
   tasks:
-    - command: /usr/local/bin/pomerium --version
+    - name: Executing 'pomerium --version'
+      ansible.builtin.command: pomerium --version
+      changed_when: false
       register: pomerium_test_output
-    - name: pomerium --version
-      debug:
+    - name: Output from 'pomerium --version'
+      ansible.builtin.debug:
         msg: '{{ pomerium_test_output.stdout }}'

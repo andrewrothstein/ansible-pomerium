@@ -1,6 +1,6 @@
 ---
 # defaults file for pomerium
-pomerium_ver: v0.22.2
+pomerium_ver: v0.28.0
 pomerium_arch_map:
   aarch64: arm64
   arm64: arm64
